@@ -14,6 +14,7 @@ module.exports = {
       var command = {"payload":{"data":{}}};
       this.processData(data, flag, command, commands, false);
       messageCallbacks = msgCallbacks;
+      console.log("DEBUG::ProgramInput InitializeData called!");
     },
     processData(data, flag, command, commands, sendTallyUpdates=true) {
       command.payload.cmd = "programInput";
@@ -31,7 +32,7 @@ module.exports = {
       commands.inputProperty.updateTallysME(data[0], "programTally", command.payload.data.videoSource, sendTallyUpdates);
   
       //Send the input properties of the updated inputs
-      if(sendTallyUpdates && flag==commandList.flags.initializing) {
+      if(sendTallyUpdates && flag==commandList.flags.initializing && typeof messageCallbacks !== "undefined") {
 
         for(var i = 0; i < messageCallbacks.length; i++) {
           var msg = {
@@ -57,6 +58,10 @@ module.exports = {
         // }
 
 
+      }
+
+      if(typeof messageCallbacks === "undefined"){
+        console.log("DEBUG::ProgramInput MessageCallbacks undefined!");
       }
   
       this.data[command.payload.data.ME] = command.payload.data;

@@ -18,6 +18,7 @@ module.exports = {
       var command = {"payload":{"data":{}}};
       this.processData(data, flag, command, commands);
       messageCallbacks = msgCallbacks;
+      console.log("DEBUG::InputProperty InitializeData called!");
     },
     processData(data, flag, command, commands) {
       command.payload.cmd = this.cmd;
@@ -190,7 +191,7 @@ module.exports = {
   
           this.data.inputs[key].tally = count > 0;
   
-          if(sendTallyUpdates) {
+          if(sendTallyUpdates && typeof messageCallbacks !== "undefined") {
             for(var i in messageCallbacks) {
               var msg = {
                 "topic": "command",
@@ -202,6 +203,9 @@ module.exports = {
               //msg.payload.data[key] = this.data.inputs[key];
               messageCallbacks[i](msg);
             }
+          }
+          if(typeof messageCallbacks === "undefined"){
+            console.log("DEBUG::InputProperty MessageCallbacks undefined!");
           }
         }
       }

@@ -56,6 +56,7 @@ module.exports = function(RED)
 
         //Close the connection
         function closeConnection() {
+            console.log("DEBUG::closeConnection called!");
             sendBuffer = [];
             clearInterval(heartBeatInterval);
             server.close();
@@ -145,6 +146,7 @@ module.exports = function(RED)
                     }
                 }
                 connectionState = state;
+                console.log("DEBUG::State changed to "+state);
                 node.sendMessage(msg);
             }
         }
